@@ -25,9 +25,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   project.set_dart_entrypoint_arguments(std::move(command_line_arguments));
 
   FlutterWindow window(project);
+  // The size here is in logical pixels; win32_window.cpp applies the monitor
+  // DPI scale before creating the window, so setting it again from Dart would
+  // double-scale and clip the content.
   Win32Window::Point origin(10, 10);
-  Win32Window::Size size(1280, 720);
-  if (!window.Create(L"clean_crosshair", origin, size)) {
+  Win32Window::Size size(1200, 800);
+  if (!window.Create(L"Retixel", origin, size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);

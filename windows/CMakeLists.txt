@@ -1,10 +1,10 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.14)
-project(clean_crosshair LANGUAGES CXX)
+project(retixel LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
-set(BINARY_NAME "clean_crosshair")
+set(BINARY_NAME "retixel")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
@@ -52,10 +52,22 @@ add_subdirectory(${FLUTTER_MANAGED_DIR})
 # Application build; see runner/CMakeLists.txt.
 add_subdirectory("runner")
 
+# Native overlay host. It is a separate process because Flutter's Windows
+# embedder cannot composit a per-pixel transparent window; see
+# replica/architecture.md. Built with exceptions enabled and without /WX so a
+# warning from the Win32 headers never breaks the build.
+add_executable(retixel_overlay WIN32 "overlay/main.cpp")
+target_compile_features(retixel_overlay PRIVATE cxx_std_17)
+target_compile_options(retixel_overlay PRIVATE /W3 /EHsc)
+target_compile_definitions(retixel_overlay PRIVATE
+  "_HAS_EXCEPTIONS=1"
+  "$<$<CONFIG:Debug>:_DEBUG>")
+target_link_libraries(retixel_overlay PRIVATE user32 gdi32 shell32)
 
-# Generated plugin build rules, which manage building the plugins and adding
-# them to the application.
 include(flutter/generated_plugins.cmake)
+
+# The panel must never ship without its overlay renderer.
+add_dependencies(${BINARY_NAME} retixel_overlay)
 
 
 # === Installation ===
@@ -73,6 +85,9 @@ set(INSTALL_BUNDLE_DATA_DIR "${CMAKE_INSTALL_PREFIX}/data")
 set(INSTALL_BUNDLE_LIB_DIR "${CMAKE_INSTALL_PREFIX}")
 
 install(TARGETS ${BINARY_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}"
+  COMPONENT Runtime)
+
+install(TARGETS retixel_overlay RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}"
   COMPONENT Runtime)
 
 install(FILES "${FLUTTER_ICU_DATA_FILE}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"

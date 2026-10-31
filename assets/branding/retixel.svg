@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Retixel brand mark. Original artwork, no third-party assets. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Retixel">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#121820"/>
+      <stop offset="1" stop-color="#07090D"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4ADEDE"/>
+      <stop offset="1" stop-color="#2A9FB0"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="1.5" y="1.5" width="1021" height="1021" rx="215" fill="url(#tile)" stroke="#263240" stroke-width="3"/>
+
+  <circle cx="512" cy="512" r="246" fill="none" stroke="#4ADEDE" stroke-opacity="0.12" stroke-width="86"/>
+  <circle cx="512" cy="512" r="246" fill="none" stroke="url(#ring)" stroke-width="44"/>
+  <circle cx="512" cy="512" r="150" fill="none" stroke="#4ADEDE" stroke-opacity="0.35" stroke-width="10"/>
+
+  <g stroke="#4ADEDE" stroke-width="42" stroke-linecap="round">
+    <line x1="512" y1="190" x2="512" y2="108"/>
+    <line x1="834" y1="512" x2="916" y2="512"/>
+    <line x1="512" y1="834" x2="512" y2="916"/>
+    <line x1="190" y1="512" x2="108" y2="512"/>
+  </g>
+
+  <circle cx="512" cy="512" r="52" fill="#FFB454"/>
+</svg>

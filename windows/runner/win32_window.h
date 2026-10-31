@@ -95,6 +95,11 @@ class Win32Window {
   // window handle for top level window.
   HWND window_handle_ = nullptr;
 
+  // Requested client size in logical pixels, applied once the window is shown
+  // and Windows reports the real window DPI.
+  unsigned int logical_width_ = 0;
+  unsigned int logical_height_ = 0;
+
   // window handle for hosted content.
   HWND child_content_ = nullptr;
 };

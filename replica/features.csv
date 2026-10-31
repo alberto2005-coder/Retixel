@@ -1,0 +1,41 @@
+id,area,priority,feature,status,notes
+d-01,diseno,must,Overlay sin inyeccion en el juego,done,ventana layered del sistema
+d-02,diseno,must,Formas base: cruz punto circulo T triangulo chevron cuadrado,missing,
+d-03,diseno,must,Grosor del trazo ajustable,missing,
+d-04,diseno,must,Hueco central ajustable,missing,
+d-05,diseno,must,Punto central opcional,missing,
+d-06,diseno,must,Contorno de contraste,missing,para fondos claros
+d-07,diseno,must,Color con presets y hex propio,missing,
+d-08,diseno,must,Opacidad de la mira,missing,
+d-09,diseno,should,Rotacion,missing,
+d-10,diseno,could,Desenfoque,missing,
+d-11,diseno,should,Brazos radiales 3-8,missing,
+d-12,diseno,must,Vista previa en vivo,missing,
+d-13,diseno,must,Imagen propia como mira,missing,
+d-14,diseno,could,GIF animado como mira,out_of_scope,v1 no; sprite estatico
+d-15,diseno,could,Capas de texto y emoji,out_of_scope,v1 no
+d-16,diseno,could,Exportar SVG,out_of_scope,PNG si
+d-17,diseno,must,Exportar PNG,missing,
+o-01,overlay,must,Ventana transparente sin bordes,missing,layered + UpdateLayeredWindow
+o-02,overlay,must,Siempre encima del juego,missing,WS_EX_TOPMOST
+o-03,overlay,must,Click-through total,missing,WS_EX_TRANSPARENT
+o-04,overlay,must,Atajo global mostrar ocultar,missing,RegisterHotKey
+o-05,overlay,must,Ocultar al apuntar ADS,missing,polling boton derecho
+o-06,overlay,must,Seleccion de monitor,missing,
+o-07,overlay,must,Ajuste fino de posicion,missing,
+o-08,overlay,should,Posicion distinta por juego,missing,offset por exe en primer plano
+o-09,overlay,must,Vivir y morir con el panel,missing,watchdog del pid padre
+o-10,overlay,should,Recarga en vivo sin parpadeo,missing,
+o-11,overlay,could,Fullscreen exclusivo via Game Bar,out_of_scope,requiere widget propio en Store
+o-12,overlay,could,Icono en bandeja,missing,
+p-01,perfiles,must,Guardar y cargar perfiles ilimitados,missing,
+p-02,perfiles,must,Borrar perfil con confirmacion,missing,
+p-03,perfiles,must,Restaurar ultimo perfil al arrancar,missing,
+p-04,perfiles,should,Codigo para compartir una mira,missing,base64
+p-05,perfiles,could,Biblioteca comunitaria tipo Workshop,out_of_scope,contenido de terceros
+p-06,perfiles,could,Sync en la nube,out_of_scope,servicio externo
+q-01,calidad,must,Ajustes persistidos en disco,missing,
+q-02,calidad,must,Tests automatizados,missing,
+q-03,calidad,must,README con limitaciones reales,missing,
+q-04,calidad,should,Idioma ES y EN,missing,
+q-05,calidad,should,Manejo de errores visible en UI,missing,

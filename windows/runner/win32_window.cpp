@@ -37,6 +37,34 @@ int Scale(int source, double scale_factor) {
   return static_cast<int>(source * scale_factor);
 }
 
+// Resizes |window| so its client area measures |size| in logical pixels.
+// CreateWindow sizes the whole window, not the client area, and the monitor
+// DPI lookup below can be off, so measure the frame and the real window DPI
+// once the window exists and correct the size before it is shown.
+void ResizeClientToLogicalSize(HWND window, const Win32Window::Size& size) {
+  const UINT dpi = FlutterDesktopGetDpiForHWND(window);
+  const double scale = dpi / 96.0;
+  if (scale <= 0) {
+    return;
+  }
+
+  RECT window_rect;
+  RECT client_rect;
+  if (!GetWindowRect(window, &window_rect) ||
+      !GetClientRect(window, &client_rect)) {
+    return;
+  }
+
+  const LONG frame_width =
+      (window_rect.right - window_rect.left) - client_rect.right;
+  const LONG frame_height =
+      (window_rect.bottom - window_rect.top) - client_rect.bottom;
+
+  SetWindowPos(window, nullptr, 0, 0, Scale(size.width, scale) + frame_width,
+               Scale(size.height, scale) + frame_height,
+               SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+}
+
 // Dynamically loads the |EnableNonClientDpiScaling| from the User32 module.
 // This API is only needed for PerMonitor V1 awareness mode.
 void EnableFullDpiSupportIfAvailable(HWND hwnd) {
@@ -132,6 +160,15 @@ bool Win32Window::Create(const std::wstring& title,
                               static_cast<LONG>(origin.y)};
   HMONITOR monitor = MonitorFromPoint(target_point, MONITOR_DEFAULTTONEAREST);
   UINT dpi = FlutterDesktopGetDpiForMonitor(monitor);
+  // GetDpiForMonitor is not DPI aware and can report 96 for a per-monitor
+  // aware process on a scaled display. Prefer the system DPI when that happens;
+  // the exact size is corrected against the window DPI right after creation.
+  if (dpi == 96) {
+    const UINT system_dpi = FlutterDesktopGetDpiForHWND(nullptr);
+    if (system_dpi > dpi) {
+      dpi = system_dpi;
+    }
+  }
   double scale_factor = dpi / 96.0;
 
   HWND window = CreateWindow(
@@ -144,13 +181,26 @@ bool Win32Window::Create(const std::wstring& title,
     return false;
   }
 
+  logical_width_ = size.width;
+  logical_height_ = size.height;
+
   UpdateTheme(window);
 
   return OnCreate();
 }
 
 bool Win32Window::Show() {
-  return ShowWindow(window_handle_, SW_SHOWNORMAL);
+  if (window_handle_ == nullptr) {
+    return false;
+  }
+  ShowWindow(window_handle_, SW_SHOWNORMAL);
+  // Windows only reports the real per-monitor DPI once the window is visible,
+  // so the precise client size is applied here rather than in Create.
+  if (logical_width_ > 0 && logical_height_ > 0) {
+    ResizeClientToLogicalSize(window_handle_,
+                              Size(logical_width_, logical_height_));
+  }
+  return true;
 }
 
 // static
@@ -194,6 +244,13 @@ Win32Window::MessageHandler(HWND hwnd,
 
       SetWindowPos(hwnd, nullptr, newRectSize->left, newRectSize->top, newWidth,
                    newHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+
+      // Keep the client area at its logical size instead of shrinking it when
+      // the window lands on a monitor with a different scale.
+      if (logical_width_ > 0 && logical_height_ > 0) {
+        ResizeClientToLogicalSize(hwnd,
+                                  Size(logical_width_, logical_height_));
+      }
 
       return 0;
     }
