@@ -1,86 +1,89 @@
+# Retixel 🎯
 
-# CleanCrosshair 🎯
+<p align="center">
+  <img src="assets/branding/retixel_128.png" alt="Retixel Logo" width="100"/>
+  <br>
+  <b>Lightweight, low-latency, and anti-cheat safe crosshair overlay for Windows</b>
+</p>
 
-[🇺🇸 English](#english) | [🇪🇸 Español](#español)
+<p align="center">
+  <a href="#español">🇪🇸 Español</a> •
+  <a href="#english">🇺🇸 English</a>
+</p>
 
 ---
 
 <a name="español"></a>
-## 🇪🇸 Descripción General
-**CleanCrosshair** es una herramienta ligera de escritorio para Windows desarrollada en **Flutter**, diseñada para proporcionar un overlay de mira flotante, transparente y altamente personalizable para videojuegos. 
+## 🇪🇸 Español
 
-Creado bajo una arquitectura modular y un diseño de sala limpia (*clean-room design*), garantiza un código 100% original, seguro y libre de inyecciones de código en juegos (evitando conflictos con sistemas anti-cheat).
+### Descripción General
+**Retixel** es una herramienta de escritorio ligera para Windows desarrollada en **Flutter** con un motor de overlay nativo Win32 en C++. Proporciona una mira flotante personalizable, de bajísima latencia y con soporte para múltiples perfiles y presets.
+
+Desarrollada bajo una metodología limpia y desacoplada, **Retixel no inyecta código ni manipula la memoria de ningún proceso de juego**, por lo que es completamente indetectable e inocua para sistemas anti-cheat (Easy Anti-Cheat, BattlEye, Vanguard, etc.).
 
 ### Características Principales
-- **Panel de Control Dinámico:** Interfaz oscura y moderna inspirada en herramientas de gaming profesionales.
-- **Múltiples Formas:** Soporte para Mira en Cruz (*Cross*), Punto (*Dot*) y Círculo (*Circle*).
-- **Personalización Completa:** Ajuste en tiempo real de tamaño, grosor y selección de colores RGB/Neón.
-- **Modo Overlay Flotante:** Ventana nativa de Windows sin bordes, fijada siempre en la parte superior (*Always on Top*).
+- 🚀 **Baja Latencia & Rendimiento:** Motor nativo de overlay C++ Win32 (`layered transparent window`) desacoplado de la UI principal.
+- 🎨 **Múltiples Estilos:** Soporte para Mira en Cruz (*Cross*), Punto (*Dot*), Círculo (*Circle*) y miras basadas en sprites o imágenes PNG.
+- ⚙️ **Personalización Completa:** Ajuste en tiempo real de tamaño, grosor, separación central (*gap*), opacidad y paletas RGB.
+- 💾 **Perfiles y Presets:** Guarda y carga configuraciones para distintos juegos y armas al instante.
+- 🛡️ **100% Seguro (No-Injection):** Funciona como un renderizado transparente Always-on-Top sin hooks de memoria.
+- 🌐 **Soporte Multilingüe:** Interfaz disponible en Español e Inglés.
+
+### Descarga e Instalación
+Dirígete a la sección de [**Releases**](https://github.com/alberto2005-coder/Retixel/releases) para descargar la última versión:
+- **ZIP Portable:** Descomprime y ejecuta `retixel.exe`. No requiere instalación de dependencias adicionales.
+
+### Compilación desde el Código Fuente
+```powershell
+# Obtener dependencias de Flutter
+flutter pub get
+
+# Compilar para Windows en modo Release
+flutter build windows --release
+```
+El ejecutable y librerías generadas se encontrarán en:  
+`build\windows\x64\runner\Release/`
 
 ---
 
 <a name="english"></a>
-## 🇺🇸 Overview
-**CleanCrosshair** is a lightweight Windows desktop utility built with **Flutter**, designed to provide a floating, transparent, and highly customizable crosshair overlay for video games.
+## 🇺🇸 English
 
-Developed under a modular architecture and clean-room design methodology, it ensures 100% original, secure code with zero game process injection (safe against anti-cheat systems).
+### Overview
+**Retixel** is a lightweight, high-performance Windows desktop application built with **Flutter** and a dedicated native Win32 C++ overlay engine. It provides a customizable, floating crosshair overlay with near-zero latency and support for multiple presets.
+
+Designed with clean-room principles and complete decoupling, **Retixel does not inject DLLs or modify game memory**, making it 100% safe against modern anti-cheat solutions (such as Easy Anti-Cheat, BattlEye, Vanguard, etc.).
 
 ### Key Features
-- **Dynamic Control Panel:** Modern dark theme interface tailored for gamers.
-- **Multiple Shapes:** Support for Cross, Dot, and Circle styles.
-- **Full Customization:** Real-time adjustment of size, thickness, and RGB/Neon color presets.
-- **Floating Overlay Mode:** Frameless native Windows window with Always-on-Top capabilities.
+- 🚀 **Ultra-Low Latency:** Standalone C++ Win32 layered transparent window overlay, keeping the UI separate from the rendering loop.
+- 🎨 **Multiple Shapes:** Support for Cross, Dot, Circle, and sprite/custom image-based crosshairs.
+- ⚙️ **Full Customization:** Live tuning of size, thickness, center gap, opacity, and custom RGB palettes.
+- 💾 **Presets & Profiles:** Save and switch between configurations for different games with a single click.
+- 🛡️ **Anti-Cheat Safe:** Pure Always-on-Top transparent overlay without memory hooks or process manipulation.
+- 🌐 **Multilingual Support:** Built-in Spanish and English localization.
+
+### Download & Quick Start
+Visit the [**Releases**](https://github.com/alberto2005-coder/Retixel/releases) section to get the latest release:
+- **Portable ZIP:** Extract and run `retixel.exe`. No installation required.
+
+### Build from Source
+```powershell
+# Install Flutter dependencies
+flutter pub get
+
+# Build Windows Release binary
+flutter build windows --release
+```
+The compiled output and runtime binaries will be generated at:  
+`build\windows\x64\runner\Release/`
 
 ---
 
 ## 🛠️ Tecnologías / Tech Stack
-- **Framework:** Flutter (Dart)
-- **Desktop Management:** `window_manager`
-- **Plataforma:** Windows Desktop (`.exe`)
+- **UI Framework:** Flutter / Dart
+- **Overlay Engine:** Win32 Native C++ (GDI+ / DirectLayered)
+- **Desktop Window Management:** `window_manager`, `screen_retriever`
+- **Platform:** Windows 10 / 11 (x64)
 
 ## 📄 Licencia / License
-Distribuido bajo la **Licencia MIT**. Consulta el archivo `LICENSE` para más detalles.
-
-```
-
----
-
-### 3. Comandos para subir tu proyecto a GitHub
-
-Una vez que hayas creado/guardado el `.gitignore` y el `README.md` en la carpeta de tu proyecto, abre tu terminal en la ruta de `CleanCrosshair_Project` y ejecuta estos comandos ordenados para subirlo a tu cuenta de GitHub:
-
-1. **Inicializar el repositorio Git (si no lo habías hecho):**
-```powershell
-git init
-
-```
-
-
-2. **Añadir todos los archivos al control de versiones:**
-```powershell
-git add .
-
-```
-
-
-3. **Hacer el commit inicial:**
-```powershell
-git commit -m "feat: initial release of CleanCrosshair with Flutter and window overlay"
-
-```
-
-
-4. **Conectar con tu repositorio remoto de GitHub** *(reemplaza la URL con la de tu propio repositorio)*:
-```powershell
-git branch -M main
-git remote add origin https://github.com/tu-usuario/CleanCrosshair.git
-
-```
-
-
-5. **Subir el código a GitHub:**
-```powershell
-git push -u origin main
-
-```
-
+Distribuido bajo la **Licencia MIT**. Consulta el archivo `LICENSE` para más información.
